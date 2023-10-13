@@ -4,6 +4,7 @@ import formatDate from "../../utils/FormatDate";
 import Title from "../Title/Title";
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import Message from "../Message/Message";
 const time = formatDate(new Date());
 
 const NavBar = () => {
@@ -12,11 +13,11 @@ const NavBar = () => {
   return (
     <div className="grid grid-row-3 w-full">
       <div className="row-1 my-10 text-right">
-        <p className=" font-medium text-text ">Último ingreso {time}</p>
-        <p className=" font-medium text-text ">Dirección IP: {ipAddress}</p>
+        <Message>Último ingreso {time}</Message>
+        <Message>Dirección IP: {ipAddress}</Message>
       </div>
       <div className="row-1 my-1 text-left">
-        <Title className="text-title">{location.pathname == "/" ? "Cargue de facturas en dos pasos" :
+        <Title>{location.pathname == "/" ? "Cargue de facturas en dos pasos" :
         location.pathname == "/billing" ? "Cargue de facturas" : "404 Invalid path"}</Title>
       </div>
 
