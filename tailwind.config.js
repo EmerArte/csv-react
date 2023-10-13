@@ -16,6 +16,8 @@ module.exports = withMT({
         text: '#333F48',
         title: '#003C71',
         secondaryAccent: '#BBD2DF',
+        background: '#FFFFFF',
+        backgroundDark: '#1D252D',
         options: '#DADFE2'
       },
     },
