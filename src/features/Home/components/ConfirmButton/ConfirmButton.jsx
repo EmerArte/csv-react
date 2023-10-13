@@ -2,22 +2,25 @@ import { Button } from "@material-tailwind/react";
 import FileContext from "../../contexts/FileContext";
 import { useContext } from 'react';
 import { chargeFileService } from "../../service/ChargeFileService";
-import { redirect } from "react-router-dom";
-const ConfirmButton = () => {
-    const {file, setFile} = useContext(FileContext);
+import { useNavigate } from "react-router-dom";
 
+const ConfirmButton = () => {
+    let navigate = useNavigate();
+    const {file, setFile} = useContext(FileContext);
     const uploadFile = async () => {
         if(file == null){
             return;
         }
-        console.log(file);
+        if(file.size > 1000000){
+            window.alert("El archivo no puede ser mayor a 1MB");
+            return;
+        }
         const response = await chargeFileService(file);
         if(response.message){
             window.alert(response.message);
         }else{
-            redirect("/billing")
+            navigate("/billing")
         }
-        console.log(response);
     };
 
 

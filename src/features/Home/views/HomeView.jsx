@@ -7,6 +7,7 @@ import ConfirmButton from "../components/ConfirmButton/ConfirmButton";
 import { Alert } from "@material-tailwind/react";
 import { useState } from "react";
 import FileContext from "../contexts/FileContext";
+import Span from "../../../components/Span/Span";
 
 const HomeView = () => {
   const [open, setOpen] = useState(false);
@@ -48,6 +49,8 @@ const HomeView = () => {
           </h2>
           <br />
           <DropFileInput></DropFileInput>
+          <br />
+          <span className="text-text text-sm font-bold leading-tight tracking-tight">El documento debe ser formato csv o excel y un tamaño maximo de 1MB.</span>
         </div>
         <br />
         <br />

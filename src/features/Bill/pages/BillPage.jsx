@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getBills } from "../service/BillService";
+import { getBills, rejectBill } from "../service/BillService";
 import Pagination from "../components/Pagination";
 import TextStyle from "../components/TextStyle";
 import { Chip } from "@material-tailwind/react";
@@ -17,13 +17,26 @@ const BillPage = () => {
   const [bills, setBills] = useState(undefined);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-
+  const [selected, setSelected] = useState([]);
   const pageable = async (page) => {
     const response = await getBills(page);
     setBills(response.data);
     setPageCount(response.pages - 1);
     setCurrentPage(page);
   };
+
+  const reject = async () => {
+    if(selected == null){
+      window.alert("Debe seleccionar una factura");
+      return;
+    }
+    const response = await rejectBill(selected);
+    if(response.message != null){
+      window.alert(response.message);
+    }else{
+      window.alert("Factura rechazada");
+    }
+  }
 
   useEffect(() => {
     pageable(currentPage); // Carga la primera página al inicio
@@ -39,11 +52,11 @@ const BillPage = () => {
           type="text"
           placeholder="Buscar por nombre o codigo"
         />
-        <button className="w-[178.51px] h-12 bg-cyan-500 rounded-lg font-bold text-base text-white">
+        <button onClick={reject} className="w-[178.51px] h-12 bg-cyan-500 rounded-lg font-bold text-base text-white">
           Rechazar
         </button>
       </div>
-      <div className="w-full px-0">
+      <div className="w-full overflow-x-auto px-0">
         <table className="min-w-max w-full table-auto my-4 rounded-sm text-left bg-card ">
           <thead>
             <tr className="border-b-2 border-gray-300">
@@ -77,6 +90,9 @@ const BillPage = () => {
                             >
                               <input
                                 type="checkbox"
+                                checked={selected == billCode}
+                                onChange={(e) => {
+                                  setSelected(e.target.checked ? billCode: null);}}
                                 className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none 
                                 rounded-md border border-blue-gray-200 transition-all before:absolute 
                                 before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 
